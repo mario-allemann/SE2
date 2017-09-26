@@ -1,10 +1,5 @@
 package webAdressPortChecker;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
 public class WebAdressController {
 
 	private WebAdressView view;
