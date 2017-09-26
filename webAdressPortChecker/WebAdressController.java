@@ -16,38 +16,18 @@ public class WebAdressController {
 		this.view = view;
 		this.model = model;
 
-		// Adds Listener on adressTextfield
-		view.adress.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				validateAdress(newValue);
-			}
-		});
-		// Adds Listener on port TextField
-		view.port.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				validatePort(newValue);
-			}
-		});
-		
-		//Lambda
+		// Adds Lambda listener to adress textfield
 		view.adress.textProperty().addListener((observable, oldValue, newValue) -> {
-			view.adress.setText("");
+			validateAdress(newValue);
 		});
-		
-		view.theButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				view.theButton.setText("Clicked");
-			}
+		//Adds Lambda listener to port textfield
+		view.port.textProperty().addListener((observable, oldValue, newValue) -> {
+			validatePort(newValue);
+		});
 
-		});
-		
-	
-		
-		//Lambda
+		//Add Lambda EventHandler on Button
 		view.theButton.setOnAction((event) -> {
-			view.theButton.setText("Lambda");
+			view.theButton.setText("Clicked");
 		});
 
 	}
