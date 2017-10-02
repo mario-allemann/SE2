@@ -1,4 +1,7 @@
-package webAdressPortChecker;
+package bigProject.webAdressChecker;
+
+import bigProject.counter.ServiceLocator;
+import bigProject.counter.commonClasses.Configuration;
 
 public class WebAdressController {
 
@@ -6,6 +9,9 @@ public class WebAdressController {
 	private WebAdressModel model;
 	private boolean isAdressValid;
 	private boolean isPortValid;
+	
+	ServiceLocator sl = ServiceLocator.getServiceLocator();
+	Configuration config = sl.getConfiguration();
 
 	public WebAdressController(WebAdressView view, WebAdressModel model) {
 		this.view = view;
@@ -22,11 +28,18 @@ public class WebAdressController {
 
 		//Add Lambda EventHandler on Button
 		view.theButton.setOnAction((event) -> {
-			view.theButton.setText("Clicked");
+			setLocalConfig(view.adress.getText(), view.port.getText());
 		});
 
 	}
 
+	public void setLocalConfig(String lastAdress, String lastPort) {
+		config.setLocalOption("LastAdress", lastAdress);
+		config.setLocalOption("LastPort", lastPort);
+		config.save();
+	}
+	
+	
 	// Checks if adress is valid and sets color accordingly. Locks or unlocks the
 	// button
 	public void validateAdress(String adress) {
@@ -66,6 +79,5 @@ public class WebAdressController {
 	// Locks the button
 	private void lockButton() {
 		view.theButton.setDisable(true);
-		view.theButton.setText("Click");
 	}
 }

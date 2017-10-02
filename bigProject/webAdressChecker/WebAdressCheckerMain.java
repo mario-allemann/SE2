@@ -1,9 +1,9 @@
-package webAdressPortChecker;
+package bigProject.webAdressChecker;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class WebAdressCheckerMain extends Application {
 	private WebAdressView view;
 	private WebAdressController controller;
 	private WebAdressModel model;
