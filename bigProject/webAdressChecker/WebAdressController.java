@@ -32,7 +32,7 @@ public class WebAdressController {
 		});
 
 	}
-
+	//Sets the local config and saves
 	public void setLocalConfig(String lastAdress, String lastPort) {
 		config.setLocalOption("LastAdress", lastAdress);
 		config.setLocalOption("LastPort", lastPort);
