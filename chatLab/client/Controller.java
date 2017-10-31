@@ -10,7 +10,7 @@ public class Controller {
 
 		view.btnConnect.setOnAction((event) -> {
 			model.connect(view.tfIPAdr.getText(), Integer.parseInt(view.tfPort.getText()), view.tfName.getText());
-
+			view.btnConnect.setDisable(true);
 		});
 
 		view.stage.setOnCloseRequest((event) -> {
