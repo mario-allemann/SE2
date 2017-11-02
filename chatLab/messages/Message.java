@@ -1,49 +1,48 @@
 package chatLab.messages;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.Socket;
-import com.sun.istack.internal.logging.Logger;
+import java.util.logging.Logger;
 
-public class Message implements Serializable{
-	private static Logger logger = Logger.getLogger("", null);
+public class Message implements Serializable {
+	private static Logger logger = Logger.getLogger("");
 	protected MessageType type;
-	
+
 	public Message(MessageType type) {
 		this.type = type;
 	}
-	
+
 	public void send(Socket socket) {
 		logger.info("Sending message");
-		
-		
+		ObjectOutputStream out;
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			out = new ObjectOutputStream(socket.getOutputStream());
 			out.writeObject(this);
-			out.flush();
-			socket.shutdownOutput();
-			
-		} catch(Exception e) {
-			logger.warning(e.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	public static Message receive(Socket socket) {
-		logger.info("Receiving Message");
+		logger.info("Receiving message");
 		try {
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			return (Message) in.readObject();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.warning(e.toString());
+			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public MessageType getType() {
 		return this.type;
 	}
-	
+
 }

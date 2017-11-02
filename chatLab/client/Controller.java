@@ -21,7 +21,7 @@ public class Controller {
 			model.sendMessage(view.tfMessage.getText());
 		});
 
-		model.newestMessage.addListener((o, oldValue, newValue) -> view.chatMessages.appendText(newValue));
+		model.newestMessage.addListener((o, oldValue, newValue) -> view.chatMessages.appendText("\n" + newValue));
 
 	}
 

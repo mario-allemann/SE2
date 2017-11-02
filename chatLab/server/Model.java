@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Logger;
 
+import chatLab.messages.ChatMsg;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,7 +30,9 @@ public class Model {
 					while(!stop) {
 						try {
 							Socket socket = listener.accept();
-							Client client = new Client(socket);
+							Client client = new Client(Model.this, socket);
+							System.out.println(client.toString());
+							
 							clients.add(client);
 						} catch (Exception e) {
 							logger.info(e.toString());
@@ -66,4 +69,13 @@ public class Model {
 		logger.info("Get client list");
 		return clients;
 	}
+
+	public void broadcast(ChatMsg msg) {
+		for(Client c : clients) {
+			c.send(msg);
+		}
+		
+	}
+
+
 }
