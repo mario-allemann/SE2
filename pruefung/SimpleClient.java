@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
 public class SimpleClient {
 
 	private Socket socket;
@@ -15,11 +14,11 @@ public class SimpleClient {
 	private PrintWriter out;
 	private String name;
 	int result = 0;
-	
+
 	public void connect(String ipAddress, int Port, String name) {
 		this.name = name;
 		try {
-			//First connection to server
+			// First connection to server
 			socket = new Socket(ipAddress, Port);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream());
@@ -27,43 +26,36 @@ public class SimpleClient {
 			Runnable r = new Runnable() {
 				@Override
 				public void run() {
-					//Read incoming messages
+					// Read incoming messages
 					while (true) {
 						String incoming;
 						try {
 							incoming = in.readLine();
 							System.out.println(incoming);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-							
-						
 					}
 				}
 			};
 			Thread t = new Thread(r);
 			t.start();
 
-			// Send join message to the server
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void send(int number) {
-		System.out.println("Sending message: " + number);
 		out.write(Integer.toString(number) + "\r\n");
 		out.flush();
 	}
-	
-	
+
 	public static void main(String[] args) {
 		SimpleClient sc = new SimpleClient();
 		sc.connect("127.0.0.1", 5050, "one");
 		sc.send(20);
 		sc.send(100);
 	}
-	
-	
+
 }

@@ -21,12 +21,11 @@ public class WebAdressModelTest {
 			int i = Integer.parseInt("H");
 			fail();
 		} catch (Exception e) {
-			assertTrue();
+			assertTrue(true);
 		}
 		
 		assertTrue(wm.isValidAdress("127.0.0.1"));
 		assertFalse(wm.isValidAdress("11170505"));
 	}
-	@Test
 
 }

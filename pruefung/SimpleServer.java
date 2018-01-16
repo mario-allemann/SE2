@@ -10,48 +10,43 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SimpleServer {
-	
+
 	private ServerSocket serverSocket;
 	private Socket client;
 	private BufferedReader in;
 	private PrintWriter out;
 	private volatile boolean finished = false;
-	
+
 	public void startServer(int port) {
 		try {
 			serverSocket = new ServerSocket(port, 10, null);
-			
+
 			Runnable r = new Runnable() {
 				@Override
 				public void run() {
-					while(!finished) {
+					while (!finished) {
 						try {
 							client = serverSocket.accept();
 							System.out.println("Connection accepted");
-							//Creates a new Thread which handles IO
+							// Creates a new Thread which handles IO
 							createThread(client);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
 					}
 				}
-
-		
 			};
-			
+
 			Thread t = new Thread(r);
 			t.start();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 	}
-	
-	
+
 	private void createThread(Socket socket) {
 		Runnable r = new Runnable() {
 			@Override
@@ -62,8 +57,7 @@ public class SimpleServer {
 					System.out.println("Waiting for messages...");
 					while (true) {
 						String msg = in.readLine();
-						System.out.println(msg);
-						out.write(Integer.toString(Integer.parseInt(msg)*2) + "\r\n");
+						out.write(Integer.toString(Integer.parseInt(msg) * 2) + "\r\n");
 						out.flush();
 					}
 				} catch (Exception e) {
@@ -71,15 +65,12 @@ public class SimpleServer {
 				}
 			}
 		};
-		
+
 		Thread t = new Thread(r);
 		t.start();
-		
+
 	}
-	
-	
-	
-	
+
 	public static void main(String[] args) {
 		SimpleServer simpleServer = new SimpleServer();
 		simpleServer.startServer(5050);
