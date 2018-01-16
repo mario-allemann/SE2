@@ -19,9 +19,10 @@ public class Controller {
 
 		view.btnSend.setOnAction((event) -> {
 			model.sendMessage(view.tfMessage.getText());
+			view.tfMessage.clear();
 		});
 
-		model.newestMessage.addListener((o, oldValue, newValue) -> view.chatMessages.appendText("\n" + newValue));
+		model.newestMessage.addListener((o, oldValue, newValue) -> view.chatMessages.appendText(newValue + "\n"));
 
 	}
 

@@ -2,13 +2,14 @@ package bigProject.webAdressChecker;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class WebAdressModelTest {
 
-	@Before
+	@After
 	public void setUp() throws Exception {
 		System.out.println("HelloWorld");
 	}
@@ -16,9 +17,16 @@ public class WebAdressModelTest {
 	@Test
 	public void testIsValidAdress() {
 		WebAdressModel wm = new WebAdressModel();
-		assertTrue(false);
+		try {
+			int i = Integer.parseInt("H");
+			fail();
+		} catch (Exception e) {
+			assertTrue();
+		}
+		
 		assertTrue(wm.isValidAdress("127.0.0.1"));
 		assertFalse(wm.isValidAdress("11170505"));
 	}
+	@Test
 
 }

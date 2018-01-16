@@ -3,11 +3,13 @@ package pruefung;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SimpleServer{
+public class SimpleServer {
 	
 	private ServerSocket serverSocket;
 	private Socket client;
@@ -24,10 +26,10 @@ public class SimpleServer{
 				public void run() {
 					while(!finished) {
 						try {
-							System.out.println("Waiting for client");
 							client = serverSocket.accept();
-							System.out.println("Got message");
-							receive();
+							System.out.println("Connection accepted");
+							//Creates a new Thread which handles IO
+							createThread(client);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -35,6 +37,8 @@ public class SimpleServer{
 						
 					}
 				}
+
+		
 			};
 			
 			Thread t = new Thread(r);
@@ -47,29 +51,30 @@ public class SimpleServer{
 	
 	}
 	
-	public void receive() {
-		try {
-			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			String original = in.readLine();
-			int originalInt = Integer.parseInt(original);
-			this.send(originalInt*2);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
-	public void send(int result) {
-		try {
-			this.out = new PrintWriter(client.getOutputStream());
-			out.write(Integer.toString(result));
-			out.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private void createThread(Socket socket) {
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+					out = new PrintWriter(socket.getOutputStream());
+					System.out.println("Waiting for messages...");
+					while (true) {
+						String msg = in.readLine();
+						System.out.println(msg);
+						out.write(Integer.toString(Integer.parseInt(msg)*2) + "\r\n");
+						out.flush();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		
+		Thread t = new Thread(r);
+		t.start();
+		
 	}
 	
 	

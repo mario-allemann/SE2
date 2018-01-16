@@ -49,7 +49,7 @@ public class View {
 		top.getChildren().addAll(lblIPAdr,tfIPAdr, lblPort, tfPort, lblName, tfName, btnConnect);
 		bp.setTop(top);
 		
-
+		chatMessages.setEditable(false);
 		bp.setCenter(chatMessages);
 		
 		

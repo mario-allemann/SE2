@@ -19,6 +19,7 @@ public class SimpleClient {
 	public void connect(String ipAddress, int Port, String name) {
 		this.name = name;
 		try {
+			//First connection to server
 			socket = new Socket(ipAddress, Port);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream());
@@ -26,17 +27,17 @@ public class SimpleClient {
 			Runnable r = new Runnable() {
 				@Override
 				public void run() {
+					//Read incoming messages
 					while (true) {
 						String incoming;
 						try {
-							System.out.println("Waiting for messages");
 							incoming = in.readLine();
-							System.out.println("Got message");
-							printMessage(Integer.parseInt(incoming));
+							System.out.println(incoming);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+							
 						
 					}
 				}
@@ -51,13 +52,11 @@ public class SimpleClient {
 	}
 	
 	public void send(int number) {
-		out.write(Integer.toString(number));
+		System.out.println("Sending message: " + number);
+		out.write(Integer.toString(number) + "\r\n");
 		out.flush();
 	}
 	
-	public void printMessage(int number) {
-		System.out.println("Client: " + number);
-	}
 	
 	public static void main(String[] args) {
 		SimpleClient sc = new SimpleClient();
